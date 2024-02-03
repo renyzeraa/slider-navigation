@@ -23,28 +23,16 @@ export default class Slide {
     )
   }
 
-  /**
-   * Updates the position of the slide based on the current mouse position.
-   * @param {number} iClientX
-   */
   updatePosition(iClientX) {
-    this.dist.movement = (this.dist.startX - iClientX) * 1.3
+    this.dist.movement = (this.dist.startX - iClientX) * 1.4
     return this.dist.finalPosition - this.dist.movement
   }
 
-  /**
-   * Moves the slide by the specified distance.
-   * @param {number} distX
-   */
   moveSlide(distX) {
     this.dist.movePosition = distX
     this.slide.style.transform = `translate3d(${distX}px, 0, 0)`
   }
 
-  /**
-   * Inicia evento de movimento no slide
-   * @param {Event} oEv
-   */
   onStart = oEv => {
     oEv.preventDefault()
     if (this.isMobileDevice()) {
@@ -73,10 +61,14 @@ export default class Slide {
   }
 
   addSlideEvents = () => {
-    this.wrapper.addEventListener('mousedown', this.onStart)
-    this.wrapper.addEventListener('touchstart', this.onStart)
-    this.wrapper.addEventListener('touchend', this.onEnd)
-    this.wrapper.addEventListener('mouseup', this.onEnd)
+    this.wrapper.addEventListener(
+      this.isMobileDevice() ? 'touchstart' : 'mousedown',
+      this.onStart
+    )
+    this.wrapper.addEventListener(
+      this.isMobileDevice() ? 'touchend' : 'mouseup',
+      this.onEnd
+    )
   }
 
   init = () => {
