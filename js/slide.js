@@ -55,8 +55,10 @@ export default class Slide {
   }
 
   onEnd = () => {
-    const sMoveType = this.isMobileDevice() ? 'touchmove' : 'mousemove'
-    this.wrapper.removeEventListener(sMoveType, this.onMove)
+    this.wrapper.removeEventListener(
+      this.isMobileDevice() ? 'touchmove' : 'mousemove',
+      this.onMove
+    )
     this.dist.finalPosition = this.dist.movePosition
   }
 
@@ -71,8 +73,40 @@ export default class Slide {
     )
   }
 
+  slidePosition = oSlide => {
+    const iMargin = (this.wrapper.offsetWidth - oSlide.offsetWidth) / 2
+    return -(oSlide.offsetLeft - iMargin)
+  }
+
+  slideConfig = () => {
+    this.slideArray = [...this.slide.children].map(oEl => {
+      const position = this.slidePosition(oEl)
+      return {
+        position,
+        oEl
+      }
+    })
+  }
+
+  slidesIndexNav = iIndex => {
+    const iLast = this.slideArray.length - 1
+    this.index = {
+      active: iIndex,
+      next: iIndex === iLast ? undefined : iIndex + 1,
+      prev: iIndex ? iIndex - 1 : undefined
+    }
+  }
+
+  changeSlide = iIndex => {
+    const activeSlide = this.slideArray[iIndex]
+    this.moveSlide(activeSlide.position)
+    this.slidesIndexNav(iIndex)
+    this.dist.finalPosition = activeSlide.position
+  }
+
   init = () => {
     this.addSlideEvents()
+    this.slideConfig()
     return this
   }
 }
