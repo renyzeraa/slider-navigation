@@ -1,3 +1,5 @@
+import debounce from './debounce.js'
+
 export default class Slide {
   /**
    * @param {HTMLBodyElement} oSlide
@@ -12,6 +14,7 @@ export default class Slide {
       movement: 0,
       movePosition: 0
     }
+    this.activeClass = 'active'
   }
 
   transition(active) {
@@ -119,6 +122,12 @@ export default class Slide {
     this.moveSlide(activeSlide.position)
     this.slidesIndexNav(iIndex)
     this.dist.finalPosition = activeSlide.position
+    this.changeActiveClass()
+  }
+
+  changeActiveClass = () => {
+    this.slideArray.forEach(item => item.oEl.classList.remove(this.activeClass))
+    this.slideArray[this.index.active].oEl.classList.add(this.activeClass)
   }
 
   activePrevSlide = () => {
@@ -133,8 +142,19 @@ export default class Slide {
     }
   }
 
+  onResize = () => {
+    this.slideConfig()
+    this.changeSlide(this.index.active)
+  }
+
+  addResizeEvent = () => {
+    debounce(this.onResize, 200)
+    window.addEventListener('resize', this.onResize)
+  }
+
   init = () => {
     this.addSlideEvents()
+    this.addResizeEvent()
     this.transition(true)
     this.slideConfig()
     return this
