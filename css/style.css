@@ -49,16 +49,26 @@ a {
 }
 
 .arrow-nav {
-  width: 100%;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 18px;
-  padding: 0 10vw;
+  justify-content: space-around;
+  margin: 20px 0;
 }
 
 .arrow-nav button {
   cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background: #fb5 url('../img/arrow.svg') center center no-repeat;
+  color: transparent;
+  padding: 8px 12px;
+}
+
+.arrow-nav button.prev{
+  transform: rotate(-180deg);
+}
+
+.arrow-nav button:hover {
+  background-color: #f61;
 }
 
 [data-control="slide"] {
@@ -88,4 +98,29 @@ a {
   font-family: sans-serif;
   color: #222;
   overflow: hidden;
+}
+
+.custom-controls {
+  display: flex;
+  justify-content: center;
+  margin:20px 0;
+  flex-wrap: wrap;
+}
+
+.custom-controls li {
+  width: 40px; 
+  height: 40px;
+  opacity: .8;
+  transform: scale(.8);
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 4px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.custom-controls li.active, .custom-controls li:hover {
+  opacity: 1;
+  transform: scale(1);
+  transition: transform .3s;
 }
