@@ -14,6 +14,10 @@ export default class Slide {
     }
   }
 
+  transition(active) {
+    this.slide.style.transition = active ? 'transform .3s' : ''
+  }
+
   isMobileDevice() {
     return (
       'ontouchstart' in window ||
@@ -44,6 +48,7 @@ export default class Slide {
       this.isMobileDevice() ? 'touchmove' : 'mousemove',
       this.onMove
     )
+    this.transition(false)
   }
 
   onMove = oEv => {
@@ -60,6 +65,18 @@ export default class Slide {
       this.onMove
     )
     this.dist.finalPosition = this.dist.movePosition
+    this.transition(true)
+    this.changeSlideOnEnd()
+  }
+
+  changeSlideOnEnd = () => {
+    if (this.dist.movement > 120 && this.index.next !== undefined) {
+      this.activeNextSlide()
+    } else if (this.dist.movement < -120 && this.index.prev !== undefined) {
+      this.activePrevSlide()
+    } else {
+      this.changeSlide(this.index.active)
+    }
   }
 
   addSlideEvents = () => {
@@ -104,8 +121,21 @@ export default class Slide {
     this.dist.finalPosition = activeSlide.position
   }
 
+  activePrevSlide = () => {
+    if (this.index.prev !== undefined) {
+      this.changeSlide(this.index.prev)
+    }
+  }
+
+  activeNextSlide = () => {
+    if (this.index.next !== undefined) {
+      this.changeSlide(this.index.next)
+    }
+  }
+
   init = () => {
     this.addSlideEvents()
+    this.transition(true)
     this.slideConfig()
     return this
   }
