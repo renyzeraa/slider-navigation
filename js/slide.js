@@ -157,6 +157,7 @@ export default class Slide {
     this.addResizeEvent()
     this.transition(true)
     this.slideConfig()
+    this.changeSlide(0)
     return this
   }
 }

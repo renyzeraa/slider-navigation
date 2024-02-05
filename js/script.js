@@ -1,9 +1,9 @@
-import Slide from './slide.js'
+// import Slide from './slide.js'
+import SlideNav from './slide_nav.js'
 
 const slide = document.querySelector('.slide')
 const wrapper = document.querySelector('.slide-wrapper')
 
-const oSlide = new Slide(slide, wrapper)
+const oSlide = new SlideNav(slide, wrapper)
 oSlide.init()
-
-oSlide.changeSlide(0)
+oSlide.addArrow('.prev', '.next')

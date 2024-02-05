@@ -43,3 +43,12 @@ img {
   transition: transform 0.8s;
   transform: scale(1);
 }
+
+.arrow-nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 18px;
+  padding: 0 10vw;
+}
