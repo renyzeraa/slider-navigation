@@ -15,6 +15,7 @@ export default class Slide {
       movePosition: 0
     }
     this.activeClass = 'active'
+    this.changeEvent = new Event('changeEvent')
   }
 
   transition(active) {
@@ -123,6 +124,7 @@ export default class Slide {
     this.slidesIndexNav(iIndex)
     this.dist.finalPosition = activeSlide.position
     this.changeActiveClass()
+    this.wrapper.dispatchEvent(this.changeEvent)
   }
 
   changeActiveClass = () => {
